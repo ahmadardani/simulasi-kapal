@@ -3,55 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulasi Kapal - Tingkat 2</title>
+  <title>Simulasi Kapal Tenggelam</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-
-    <div class="simulation">
-      <h2>Visual Simulasi</h2>
-      <svg id="shipCanvas" width="400" height="300">
-        <!-- Laut -->
-        <rect id="sea" x="0" y="200" width="400" height="100" fill="#4da6ff" />
-        <!-- Kapal -->
-        <rect id="ship" x="150" y="160" width="100" height="40" fill="#555" rx="5" ry="5" />
-      </svg>
-      <p id="statusText">Status: Stabil</p>
-    </div>
-
-    <div class="controls">
-      <h2>Parameter Kapal</h2>
-
-      <label>Pilih Kapal:</label>
-      <select id="shipSelect">
-        <option value="marc">Marc (89.7m x 13.6m, DWT 4135 ton)</option>
-        <option value="celine">Celine (129.1m x 15.9m, DWT 8600 ton)</option>
-        <option value="custom">Custom</option>
-      </select>
-
-      <label>Panjang (m):</label>
-      <input type="number" id="length" value="89.7">
-
-      <label>Lebar (m):</label>
-      <input type="number" id="width" value="13.6">
-
-      <label>DWT (ton):</label>
-      <input type="number" id="dwt" value="4135">
-
-      <label>Berat Muatan (ton):</label>
-      <input type="range" id="cargoWeight" min="0" max="5000" value="0">
-      <p id="cargoValue">0 ton</p>
-
-      <button id="simulateBtn">Simulasikan</button>
-
-      <div class="results">
-        <p>Gaya Apung: <span id="buoyancyForce">0</span> ton</p>
-        <p>Draft: <span id="draftDepth">0</span> m</p>
-        <p>Sudut Kemiringan: <span id="tiltAngle">0</span>°</p>
+    <!-- Bagian kiri: simulasi -->
+    <div class="simulator">
+      <div class="water">
+        <img src="assets/ship.svg" alt="kapal" id="ship">
       </div>
     </div>
 
+    <!-- Bagian kanan: kontrol parameter -->
+    <div class="control-panel">
+      <h2>⚙️ Parameter Kapal</h2>
+
+      <label>Pilih Kapal:</label>
+      <select id="presetSelect">
+        <option value="custom">Custom (Isi Manual)</option>
+        <option value="marc">Marc (General Cargo)</option>
+        <option value="celine">Celine (General Cargo)</option>
+      </select>
+
+      <label>Panjang (m):</label>
+      <input type="number" id="length" value="100" min="1">
+
+      <label>Lebar (m):</label>
+      <input type="number" id="width" value="20" min="1">
+
+      <label>DWT (ton):</label>
+      <input type="number" id="dwt" value="4000" min="1">
+
+      <label>Berat Muatan (ton):</label>
+      <input type="number" id="cargoWeight" value="1000" min="0">
+
+      <button id="runSim">Jalankan Simulasi</button>
+
+      <div id="result"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>

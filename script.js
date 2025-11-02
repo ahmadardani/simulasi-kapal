@@ -1,66 +1,43 @@
-const shipSelect = document.getElementById("shipSelect");
-const lengthInput = document.getElementById("length");
-const widthInput = document.getElementById("width");
-const dwtInput = document.getElementById("dwt");
-const cargoWeight = document.getElementById("cargoWeight");
-const cargoValue = document.getElementById("cargoValue");
 const ship = document.getElementById("ship");
-const statusText = document.getElementById("statusText");
+const result = document.getElementById("result");
 
-const buoyancyForce = document.getElementById("buoyancyForce");
-const draftDepth = document.getElementById("draftDepth");
-const tiltAngle = document.getElementById("tiltAngle");
-
-cargoWeight.addEventListener("input", () => {
-  cargoValue.textContent = cargoWeight.value + " ton";
-});
-
-shipSelect.addEventListener("change", () => {
-  if (shipSelect.value === "marc") {
-    lengthInput.value = 89.7;
-    widthInput.value = 13.6;
-    dwtInput.value = 4135;
-    cargoWeight.max = 5000;
-  } else if (shipSelect.value === "celine") {
-    lengthInput.value = 129.1;
-    widthInput.value = 15.9;
-    dwtInput.value = 8600;
-    cargoWeight.max = 9000;
+document.getElementById("presetSelect").addEventListener("change", e => {
+  const val = e.target.value;
+  if (val === "marc") {
+    document.getElementById("length").value = 89.7;
+    document.getElementById("width").value = 13.6;
+    document.getElementById("dwt").value = 4135;
+  } else if (val === "celine") {
+    document.getElementById("length").value = 129.1;
+    document.getElementById("width").value = 15.9;
+    document.getElementById("dwt").value = 8600;
   } else {
-    lengthInput.value = "";
-    widthInput.value = "";
-    dwtInput.value = "";
-    cargoWeight.max = 5000;
+    document.getElementById("length").value = 100;
+    document.getElementById("width").value = 20;
+    document.getElementById("dwt").value = 4000;
   }
 });
 
-document.getElementById("simulateBtn").addEventListener("click", () => {
-  const L = parseFloat(lengthInput.value);
-  const B = parseFloat(widthInput.value);
-  const DWT = parseFloat(dwtInput.value);
-  const W = parseFloat(cargoWeight.value);
+document.getElementById("runSim").addEventListener("click", () => {
+  const length = parseFloat(document.getElementById("length").value);
+  const width = parseFloat(document.getElementById("width").value);
+  const dwt = parseFloat(document.getElementById("dwt").value);
+  const cargo = parseFloat(document.getElementById("cargoWeight").value);
 
-  const rho = 1.025; // kepadatan air laut (ton/m³)
-  const volume = L * B * 0.5; // perkiraan volume terendam maksimum
-  const FA = rho * volume; // gaya apung ton (perkiraan kasar)
+  ship.classList.remove("sink", "wobble");
+  void ship.offsetWidth; // reset animation state
 
-  const ratio = W / DWT;
-  const draft = ratio * 10; // makin berat makin dalam
-  const k = 0.002; // konstanta kemiringan
-  const angle = Math.abs(W - FA) * k;
+  const buoyancy = length * width * 0.5; // perkiraan daya apung (fiktif)
+  const loadRatio = cargo / dwt;
 
-  draftDepth.textContent = draft.toFixed(2);
-  buoyancyForce.textContent = FA.toFixed(2);
-  tiltAngle.textContent = angle.toFixed(2);
-
-  let status = "Stabil";
-  if (ratio > 0.8 && ratio <= 1) status = "Mulai Miring";
-  else if (ratio > 1) status = "Tidak Stabil";
-
-  statusText.textContent = `Status: ${status}`;
-
-  // animasi kapal naik turun
-  const baseY = 160;
-  const newY = baseY + draft;
-  ship.setAttribute("y", Math.min(newY, 240));
+  if (loadRatio < 0.8) {
+    ship.classList.add("wobble");
+    result.innerHTML = `🟢 Kapal stabil. (Rasio muatan: ${(loadRatio*100).toFixed(1)}%)`;
+  } else if (loadRatio < 1) {
+    ship.classList.add("wobble");
+    result.innerHTML = `🟡 Kapal agak berat, hati-hati (Rasio: ${(loadRatio*100).toFixed(1)}%)`;
+  } else {
+    ship.classList.add("sink");
+    result.innerHTML = `🔴 Kapal tenggelam! Muatan melebihi DWT (${(loadRatio*100).toFixed(1)}%)`;
+  }
 });

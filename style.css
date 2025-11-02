@@ -1,65 +1,113 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #eef3f8;
+  font-family: "Segoe UI", sans-serif;
+  background: #e6f4f9;
   margin: 0;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
+  width: 90%;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  overflow: hidden;
 }
 
-.simulation, .controls {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+/* Simulasi kiri */
+.simulator {
+  flex: 2;
+  background: linear-gradient(to top, #0077be 50%, #b3e5fc 50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
 }
 
-.simulation {
+.water {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#ship {
+  width: 180px;
+  position: absolute;
+  left: 50%;
+  bottom: 50px;
+  transform: translateX(-50%);
+  transform-origin: center;
+}
+
+/* Panel kanan */
+.control-panel {
   flex: 1;
-  margin-right: 20px;
-  text-align: center;
+  background: #f7f9fc;
+  padding: 20px 25px;
+  border-left: 2px solid #cce0f4;
 }
 
-.controls {
-  width: 280px;
+.control-panel h2 {
+  margin-top: 0;
 }
 
-label {
+.control-panel label {
   display: block;
   margin-top: 10px;
 }
 
-input, select, button {
+.control-panel input,
+.control-panel select {
   width: 100%;
-  margin-top: 5px;
   padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #bbb;
+  border-radius: 5px;
 }
 
 button {
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
   margin-top: 15px;
+  padding: 8px 12px;
+  background: #0077be;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #005f95;
 }
 
-.results {
-  margin-top: 20px;
-  background: #f1f5fa;
-  padding: 10px;
-  border-radius: 8px;
+#result {
+  margin-top: 15px;
+  font-size: 0.9em;
 }
 
-#statusText {
-  margin-top: 10px;
-  font-weight: bold;
+/* Animasi kapal */
+@keyframes wobble {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(3deg); }
+  50% { transform: translateX(-50%) rotate(-3deg); }
+  75% { transform: translateX(-50%) rotate(2deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+@keyframes sink {
+  0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+  50% { transform: translateX(-50%) translateY(50px) rotate(10deg); }
+  100% { transform: translateX(-50%) translateY(200px) rotate(25deg); opacity: 0; }
+}
+
+.wobble {
+  animation: wobble 2s infinite ease-in-out;
+}
+
+.sink {
+  animation: sink 6s ease-in-out forwards;
 }

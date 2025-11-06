@@ -8,20 +8,6 @@ const runSimButton = document.getElementById("runSim");
 
 let allShipData = [];
 
-// --- Fungsi untuk ubah angka Newton jadi format mudah dibaca ---
-function formatNewton(value) {
-  const absValue = Math.abs(value);
-  if (absValue >= 1e9) {
-    return (value / 1e9).toFixed(2) + " GN";
-  } else if (absValue >= 1e6) {
-    return (value / 1e6).toFixed(2) + " MN";
-  } else if (absValue >= 1e3) {
-    return (value / 1e3).toFixed(2) + " kN";
-  } else {
-    return value.toFixed(2) + " N";
-  }
-}
-
 // --- Muat Data JSON ---
 document.addEventListener("DOMContentLoaded", () => {
   fetch("./data/roll_train_data_yang_sudah_diserhanakan.json")
@@ -72,7 +58,14 @@ function computeHeelAngle(cargo, dwt, L, B) {
   return Math.min(theta, maxAngle);
 }
 
-runSimButton.addEventListener("click", () => {
+function formatNewton(value) {
+  if (value >= 1e9) return (value / 1e9).toFixed(2) + " GN";
+  if (value >= 1e6) return (value / 1e6).toFixed(2) + " MN";
+  if (value >= 1e3) return (value / 1e3).toFixed(2) + " kN";
+  return value.toFixed(2) + " N";
+}
+
+function runSimulation() {
   const L = parseFloat(lengthInput.value);
   const B = parseFloat(widthInput.value);
   const DWT = parseFloat(dwtInput.value);
@@ -110,7 +103,7 @@ runSimButton.addEventListener("click", () => {
   ship.style.transformOrigin = "center bottom";
   ship.style.transform = `translateX(-50%) rotate(${heelAngle.toFixed(2)}deg)`;
 
-  // --- tampilkan hasil dengan format yang lebih mudah dibaca ---
+  // Update panel info
   infoPanel.innerHTML = `
     ${statusText}<br>
     Rasio muatan: ${(loadRatio * 100).toFixed(1)}%<br>
@@ -118,6 +111,7 @@ runSimButton.addEventListener("click", () => {
     Sudut kemiringan: ${heelAngle.toFixed(2)}°
   `;
 
+  // Update result card
   const resultCard = document.getElementById("result");
   if (resultCard) {
     resultCard.innerHTML = `
@@ -130,5 +124,15 @@ runSimButton.addEventListener("click", () => {
     if (loadRatio < 0.8) resultCard.classList.add("success");
     else if (loadRatio < 1) resultCard.classList.add("warning");
     else resultCard.classList.add("danger");
+  }
+}
+
+runSimButton.addEventListener("click", runSimulation);
+
+// === Shortcut: tekan ENTER untuk menjalankan simulasi ===
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault(); // cegah reload form
+    runSimulation();
   }
 });

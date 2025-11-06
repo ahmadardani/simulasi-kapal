@@ -1,122 +1,122 @@
-// --- Elemen DOM ---
 const ship = document.getElementById("ship");
-const result = document.getElementById("result");
+const infoPanel = document.getElementById("info");
 const presetSelect = document.getElementById("presetSelect");
 const lengthInput = document.getElementById("length");
-const widthInput = document.getElementById("width"); // Ini adalah input 'Lebar'
+const widthInput = document.getElementById("width");
 const dwtInput = document.getElementById("dwt");
 const runSimButton = document.getElementById("runSim");
 
-// Variabel untuk menyimpan semua data kapal dari JSON
 let allShipData = [];
 
-// --- 1. Muat Data Saat Halaman Dibuka ---
-// Event 'DOMContentLoaded' memastikan script berjalan setelah HTML selesai dimuat
+// --- Muat Data JSON ---
 document.addEventListener("DOMContentLoaded", () => {
-  // Ambil data dari file JSON
-  fetch('./data/roll_train_data_yang_sudah_diserhanakan.json')
-    .then(response => {
-      // Cek jika file JSON ada dan bisa diakses
-      if (!response.ok) {
-        throw new Error('Gagal memuat data: ' + response.statusText);
-      }
-      return response.json(); // Ubah data teks JSON menjadi objek JavaScript
-    })
+  fetch("./data/roll_train_data_yang_sudah_diserhanakan.json")
+    .then(res => res.json())
     .then(data => {
-      // Simpan data ke variabel global
       allShipData = data;
-      // Panggil fungsi untuk mengisi dropdown
-      populateSelectOptions(allShipData);
+      populateSelectOptions(data);
     })
-    .catch(error => {
-      // Tampilkan error jika gagal
-      console.error('Error saat memuat JSON:', error);
-      result.innerHTML = "Gagal memuat data kapal. Cek console.";
+    .catch(err => {
+      console.error("Error:", err);
+      // Kalau gagal, tetap lanjutkan simulasi custom
+      infoPanel.innerHTML = "⚠️ Gagal memuat data kapal.<br>Gunakan mode Custom.";
     });
 });
 
-// --- 2. Fungsi untuk Mengisi Dropdown ---
 function populateSelectOptions(data) {
-  // Loop setiap kapal di dalam data JSON
   data.forEach(kapal => {
-    // Buat elemen <option> baru
-    const option = document.createElement('option');
-    option.value = kapal.ship; // misal: "Marc"
-    option.text = `${kapal.ship} (${kapal.type})`; // misal: "Marc (General Cargo)"
-    // Masukkan ke dalam <select>
-    presetSelect.appendChild(option);
+    const opt = document.createElement("option");
+    opt.value = kapal.ship;
+    opt.text = `${kapal.ship} (${kapal.type})`;
+    presetSelect.appendChild(opt);
   });
 }
 
-// --- 3. Event Listener untuk Dropdown (Mengisi Input) ---
-// --- 3. Event Listener untuk Dropdown (Mengisi Input) ---
 presetSelect.addEventListener("change", e => {
-  const selectedShipName = e.target.value;
-
-  if (selectedShipName === "custom") {
-    // Jika pilih "Custom", kosongkan input dan beri placeholder
+  const selected = e.target.value;
+  if (selected === "custom") {
     lengthInput.value = "";
     widthInput.value = "";
     dwtInput.value = "";
-
-    lengthInput.placeholder = "Masukkan panjang kapal (m)";
-    widthInput.placeholder = "Masukkan lebar kapal (m)";
-    dwtInput.placeholder = "Masukkan DWT kapal";
-
   } else {
-    // Jika pilih kapal dari preset
-    const selectedShip = allShipData.find(kapal => kapal.ship === selectedShipName);
-
-    if (selectedShip) {
-      lengthInput.value = selectedShip.length;
-      widthInput.value = selectedShip.breath; // 'breath' → 'width'
-      dwtInput.value = selectedShip.dwt;
-
-      // Kosongkan placeholder supaya tidak mengganggu tampilan
-      lengthInput.placeholder = "";
-      widthInput.placeholder = "";
-      dwtInput.placeholder = "";
+    const shipData = allShipData.find(k => k.ship === selected);
+    if (shipData) {
+      lengthInput.value = shipData.length;
+      widthInput.value = shipData.breath;
+      dwtInput.value = shipData.dwt;
     }
   }
 });
 
-// --- 4. Event Listener Tombol Simulasi (DENGAN PERBAIKAN KOMA) ---
-runSimButton.addEventListener("click", () => {
-  
-  // ======== PERBAIKAN KOMA DI SINI ========
-  // Ambil nilai sebagai string, ganti koma (,) dengan titik (.)
-  // Kita tambahkan .toString() untuk jaga-jaga jika ada data yg sudah angka
-  const lengthStr = lengthInput.value.toString().replace(',', '.');
-  const widthStr = widthInput.value.toString().replace(',', '.');
-  
-  // Baru lakukan parseFloat pada string yang sudah benar
-  const length = parseFloat(lengthStr);
-  const width = parseFloat(widthStr);
-  const dwt = parseFloat(dwtInput.value); // dwt sudah benar (angka)
-  // ===================================
+function computeHeelAngle(cargo, dwt, L, B) {
+  const ratio = cargo / dwt;
+  const t0 = 0.8;
+  const K = 5;
+  const maxAngle = 20;
+  const excess = Math.max(0, ratio - t0);
+  const shapeFactor = L / B;
+  const theta = K * excess * shapeFactor;
+  return Math.min(theta, maxAngle);
+}
 
+runSimButton.addEventListener("click", () => {
+  const L = parseFloat(lengthInput.value);
+  const B = parseFloat(widthInput.value);
+  const DWT = parseFloat(dwtInput.value);
   const cargo = parseFloat(document.getElementById("cargoWeight").value);
 
-  ship.classList.remove("sink", "wobble");
-  void ship.offsetWidth; // reset animation state
-
-  // Cek jika input valid (bukan NaN - Not a Number)
-  if (isNaN(length) || isNaN(width) || isNaN(dwt) || isNaN(cargo)) {
-    result.innerHTML = "🔴 Pastikan semua input terisi angka yang benar.";
-    return; // Hentikan simulasi
+  if (isNaN(L) || isNaN(B) || isNaN(DWT) || isNaN(cargo)) {
+    infoPanel.innerHTML = "🔴 Pastikan semua input terisi angka yang benar.";
+    return;
   }
 
-  const buoyancy = length * width * 0.5; // perkiraan daya apung (fiktif)
-  const loadRatio = cargo / dwt;
+  ship.classList.remove("sink", "wobble");
+  void ship.offsetWidth;
 
+  const rho = 1025;
+  const g = 9.81;
+  const volume = L * B * 0.5;
+  const buoyancyForce = rho * g * volume;
+
+  const loadRatio = cargo / DWT;
+  const heelAngle = computeHeelAngle(cargo, DWT, L, B);
+
+  let statusText = "";
   if (loadRatio < 0.8) {
     ship.classList.add("wobble");
-    result.innerHTML = `🟢 Kapal stabil. (Rasio muatan: ${(loadRatio*100).toFixed(1)}%)`;
+    statusText = "🟢 Kapal stabil.";
   } else if (loadRatio < 1) {
     ship.classList.add("wobble");
-    result.innerHTML = `🟡 Kapal agak berat, hati-hati (Rasio: ${(loadRatio*100).toFixed(1)}%)`;
+    statusText = "🟡 Kapal agak berat, hati-hati.";
   } else {
     ship.classList.add("sink");
-    result.innerHTML = `🔴 Kapal tenggelam! Muatan melebihi DWT (${(loadRatio*100).toFixed(1)}%)`;
+    statusText = "🔴 Kapal tenggelam!";
+  }
+
+  ship.style.transition = "transform 1s ease";
+  ship.style.transformOrigin = "center bottom";
+  ship.style.transform = `translateX(-50%) rotate(${heelAngle.toFixed(2)}deg)`;
+
+  // Update panel info (INI YANG SELALU MUNCUL)
+  infoPanel.innerHTML = `
+    ${statusText}<br>
+    Rasio muatan: ${(loadRatio * 100).toFixed(1)}%<br>
+    Gaya apung: ${buoyancyForce.toExponential(2)} N<br>
+    Sudut kemiringan: ${heelAngle.toFixed(2)}°
+  `;
+
+  // Update result card (opsional, kalau mau tetap pakai)
+  const resultCard = document.getElementById("result");
+  if (resultCard) {
+    resultCard.innerHTML = `
+      <div class="status">${statusText}</div>
+      <p><span id="ratioVal">${(loadRatio * 100).toFixed(1)}%</span></p>
+      <p></span> <span id="buoyVal">${buoyancyForce.toExponential(2)} N</span></p>
+      <p></span> <span id="heelVal">${heelAngle.toFixed(2)}°</span></p>
+    `;
+    resultCard.classList.remove("hidden", "success", "warning", "danger");
+    if (loadRatio < 0.8) resultCard.classList.add("success");
+    else if (loadRatio < 1) resultCard.classList.add("warning");
+    else resultCard.classList.add("danger");
   }
 });

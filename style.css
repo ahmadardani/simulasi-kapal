@@ -26,6 +26,8 @@ body {
   justify-content: center;
   align-items: flex-end;
   position: relative;
+  overflow: hidden;
+  height: 500px; /* 💡 tambahkan ini: tinggi tetap */
 }
 
 .water {
@@ -35,15 +37,71 @@ body {
   overflow: hidden;
 }
 
+/* --- Tambahan: Lapisan ombak halus --- */
+.water::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.2) 1%, transparent 70%) repeat-x;
+  background-size: 200px 100px;
+  opacity: 0.25;
+  animation: wave 6s linear infinite;
+}
+
+.water::after {
+  content: "";
+  position: absolute;
+  top: 52%;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 75% 75%, rgba(255,255,255,0.15) 1%, transparent 70%) repeat-x;
+  background-size: 250px 120px;
+  opacity: 0.2;
+  animation: wave2 8s linear infinite;
+}
+
+@keyframes wave2 {
+  0%   { transform: translateX(0) translateY(0); }
+  50%  { transform: translateX(-75px) translateY(3px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+
+/* Animasi ombak pelan */
+@keyframes wave {
+  0%   { transform: translateX(0) translateY(0); }
+  25%  { transform: translateX(-50px) translateY(4px); }
+  50%  { transform: translateX(-100px) translateY(0); }
+  75%  { transform: translateX(-50px) translateY(-4px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
 /* Kapal lebih besar dan berada di atas laut */
 #ship {
-  width: 500px;                /* ukuran kapal diperbesar */
+  width: 500px;
   position: absolute;
   left: 50%;
-  bottom: 220px;               /* posisi kapal lebih tinggi di atas laut */
+  bottom: 242px; /* posisi kapal pas di permukaan air */
   transform: translateX(-50%);
-  transform-origin: center;
+  transform-origin: center bottom;
   transition: bottom 0.5s ease;
+}
+
+/* --- Animasi mengapung pelan (realistis) --- */
+@keyframes float {
+  0%   { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  25%  { transform: translateX(-50%) translateY(-5px) rotate(0.8deg); }
+  50%  { transform: translateX(-50%) translateY(0) rotate(-0.8deg); }
+  75%  { transform: translateX(-50%) translateY(5px) rotate(0.5deg); }
+  100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+}
+
+.wobble {
+  animation: float 10s ease-in-out infinite;
 }
 
 /* Panel kontrol di kanan */
@@ -93,19 +151,14 @@ button:hover {
 
 /* Animasi kapal */
 @keyframes wobble {
-  0%   { transform: translateX(-50%) rotate(0deg); }
-  25%  { transform: translateX(-50%) rotate(0.8deg); }
-  50%  { transform: translateX(-50%) rotate(-0.8deg); }
-  75%  { transform: translateX(-50%) rotate(0.6deg); }
-  100% { transform: translateX(-50%) rotate(0deg); }
+  0%   { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  25%  { transform: translateX(-50%) translateY(-3px) rotate(1deg); }
+  50%  { transform: translateX(-50%) translateY(0) rotate(-1deg); }
+  75%  { transform: translateX(-50%) translateY(3px) rotate(0.5deg); }
+  100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
 }
 
-/* Kapal stabil = gerak lebih lambat dan halus */
-.wobble {
-  animation: wobble 6s infinite ease-in-out;
-}
-
-/* Animasi tenggelam (tidak diubah banyak) */
+/* Animasi tenggelam */
 @keyframes sink {
   0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
   50% { transform: translateX(-50%) translateY(60px) rotate(8deg); }
@@ -114,4 +167,65 @@ button:hover {
 
 .sink {
   animation: sink 6s ease-in-out forwards;
+}
+
+.result-card {
+  background: #eef6ff;
+  border: 1.5px solid #c5dfff;
+  border-radius: 10px;
+  padding: 15px 18px;
+  margin-top: 15px;
+  font-size: 0.95em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.result-card p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+}
+
+.result-card .emoji {
+  width: 28px;
+  display: inline-block;
+}
+
+.result-card.hidden {
+  display: none;
+}
+
+.result-card.success {
+  border-color: #b2f2bb;
+  background: #ebfbee;
+}
+
+.result-card.warning {
+  border-color: #ffe066;
+  background: #fff9db;
+}
+
+.result-card.danger {
+  border-color: #ffa8a8;
+  background: #fff5f5;
+}
+
+.status {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.info-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  line-height: 1.5;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
 }

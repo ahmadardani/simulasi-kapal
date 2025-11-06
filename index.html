@@ -8,14 +8,25 @@
 </head>
 <body>
   <div class="container">
+    
+    <!-- Bagian simulasi -->
     <div class="simulator">
       <div class="water">
         <img src="assets/ship.svg" alt="kapal" id="ship">
       </div>
+
+      <!-- Panel informasi di kiri atas -->
+      <div class="info-panel" id="info">
+        Siap untuk simulasi.<br>
+        Rasio muatan: <br>
+        Gaya apung: <br>
+        Sudut kemiringan: 
+      </div>
     </div>
 
+    <!-- Panel kontrol -->
     <div class="control-panel">
-      <h2>⚙️ Parameter Kapal</h2>
+      <h2>Parameter Kapal</h2>
 
       <label for="presetSelect">Pilih Kapal:</label>
       <select id="presetSelect">
@@ -36,7 +47,6 @@
 
       <button id="runSim">Jalankan Simulasi</button>
 
-      <div id="result"></div>
     </div>
   </div>
 

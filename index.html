@@ -8,35 +8,31 @@
 </head>
 <body>
   <div class="container">
-    <!-- Bagian kiri: simulasi -->
     <div class="simulator">
       <div class="water">
         <img src="assets/ship.svg" alt="kapal" id="ship">
       </div>
     </div>
 
-    <!-- Bagian kanan: kontrol parameter -->
     <div class="control-panel">
       <h2>⚙️ Parameter Kapal</h2>
 
-      <label>Pilih Kapal:</label>
+      <label for="presetSelect">Pilih Kapal:</label>
       <select id="presetSelect">
         <option value="custom">Custom (Isi Manual)</option>
-        <option value="marc">Marc (General Cargo)</option>
-        <option value="celine">Celine (General Cargo)</option>
       </select>
 
-      <label>Panjang (m):</label>
-      <input type="number" id="length" value="100" min="1">
+      <label for="length">Panjang (m):</label>
+      <input type="number" id="length" min="1" placeholder="Masukkan panjang kapal (m)">
 
-      <label>Lebar (m):</label>
-      <input type="number" id="width" value="20" min="1">
+      <label for="width">Lebar (m):</label>
+      <input type="number" id="width" min="1" placeholder="Masukkan lebar kapal (m)">
 
-      <label>DWT (ton):</label>
-      <input type="number" id="dwt" value="4000" min="1">
+      <label for="dwt">DWT (ton):</label>
+      <input type="number" id="dwt" min="1" placeholder="Masukkan DWT kapal">
 
-      <label>Berat Muatan (ton):</label>
-      <input type="number" id="cargoWeight" value="1000" min="0">
+      <label for="cargoWeight">Berat Muatan (ton):</label>
+      <input type="number" id="cargoWeight" min="0" placeholder="Masukkan berat muatan (ton)">
 
       <button id="runSim">Jalankan Simulasi</button>
 

@@ -2,147 +2,147 @@
   {
     "ship": "Marc",
     "type": "General Cargo",
-    "length": "89,7",
-    "breath": "13,6",
+    "length": "89.7",
+    "breath": "13.6",
     "dwt": 4135
   },
   {
     "ship": "Celine",
     "type": "General Cargo",
-    "length": "129,1",
-    "breath": "15,9",
+    "length": "129.1",
+    "breath": "15.9",
     "dwt": 8600
   },
   {
     "ship": "Avax",
     "type": "Bulkcarrier",
     "length": 225,
-    "breath": "32,2",
+    "breath": "32.2",
     "dwt": 75399
   },
   {
     "ship": "Yannis",
     "type": "Bulkcarrier",
     "length": 190,
-    "breath": "32,3",
+    "breath": "32.3",
     "dwt": 50779
   },
   {
     "ship": "Kelly C",
     "type": "General Cargo",
-    "length": "106,1",
-    "breath": "15,5",
+    "length": "106.1",
+    "breath": "15.5",
     "dwt": 6700
   },
   {
     "ship": "Notos",
     "type": "General Cargo",
-    "length": "125,2",
-    "breath": "16,4",
+    "length": "125.2",
+    "breath": "16.4",
     "dwt": 8049
   },
   {
     "ship": "W. Boheme",
     "type": "Bulkcarrier",
     "length": 187,
-    "breath": "28,6",
+    "breath": "28.6",
     "dwt": 37000
   },
   {
     "ship": "Pina Cafiero",
     "type": "Bulkcarrier",
     "length": 225,
-    "breath": "32,3",
+    "breath": "32.3",
     "dwt": 75668
   },
   {
     "ship": "Lowlands Saguenay",
     "type": "Bulkcarrier",
-    "length": "179,98",
-    "breath": "30,05",
+    "length": "179.98",
+    "breath": "30.05",
     "dwt": 37152
   },
   {
     "ship": "Topaz",
     "type": "Bulkcarrier",
     "length": 225,
-    "breath": "32,26",
+    "breath": "32.26",
     "dwt": 75499
   },
   {
     "ship": "BBC Fortune",
     "type": "General cargo",
-    "length": "138,9",
-    "breath": "21,34",
+    "length": "138.9",
+    "breath": "21.34",
     "dwt": 12692
   },
   {
     "ship": "Nautiical Lucia",
     "type": "Bulkcarrier",
-    "length": "199,87",
-    "breath": "32,25",
+    "length": "199.87",
+    "breath": "32.25",
     "dwt": 63548
   },
   {
     "ship": "Linnau",
     "type": "General cargo",
-    "length": "87,98",
-    "breath": "12,8",
+    "length": "87.98",
+    "breath": "12.8",
     "dwt": 3699
   },
   {
     "ship": "Kyzikos",
     "type": "Bulkcarrier",
-    "length": "229,5",
-    "breath": "36,92",
+    "length": "229.5",
+    "breath": "36.92",
     "dwt": 92598
   },
   {
     "ship": "Onego Capri",
     "type": "General cargo",
-    "length": "138,86",
-    "breath": "15,87",
+    "length": "138.86",
+    "breath": "15.87",
     "dwt": 10273
   },
   {
     "ship": "Moraime",
     "type": "General cargo",
     "length": 118,
-    "breath": "16,5",
+    "breath": "16.5",
     "dwt": 7300
   },
   {
     "ship": "CSK Unity",
     "type": "Bulkcarrier",
-    "length": "224,98",
-    "breath": "32,24",
+    "length": "224.98",
+    "breath": "32.24",
     "dwt": 77105
   },
   {
     "ship": "Super Lydia",
     "type": "Bulkcarrier",
-    "length": "177,85",
-    "breath": "28,6",
+    "length": "177.85",
+    "breath": "28.6",
     "dwt": 37406
   },
   {
     "ship": "Nord Saturn",
     "type": "Bulkcarrier",
     "length": 225,
-    "breath": "32,26",
+    "breath": "32.26",
     "dwt": 77288
   },
   {
     "ship": "Orange Harmony",
     "type": "Bulkcarrier",
-    "length": "228,99",
-    "breath": "32,26",
+    "length": "228.99",
+    "breath": "32.26",
     "dwt": 81837
   },
   {
     "ship": "Aloe",
     "type": "Bulkcarrier",
-    "length": "178,72",
+    "length": "178.72",
     "breath": 28,
     "dwt": 30618
   },
@@ -157,28 +157,28 @@
     "ship": "Oppland",
     "type": "General cargo",
     "length": 107,
-    "breath": "18,43",
+    "breath": "18.43",
     "dwt": 9273
   },
   {
     "ship": "Eems River",
     "type": "General cargo",
-    "length": "89,92",
-    "breath": "12,5",
+    "length": "89.92",
+    "breath": "12.5",
     "dwt": 4066
   },
   {
     "ship": "Isartal",
     "type": "General cargo",
-    "length": "87,92",
-    "breath": "12,8",
+    "length": "87.92",
+    "breath": "12.8",
     "dwt": 3782
   },
   {
     "ship": "Onego Bayou",
     "type": "General cargo",
-    "length": "145,63",
-    "breath": "18,29",
+    "length": "145.63",
+    "breath": "18.29",
     "dwt": 10758
   },
   {
@@ -192,56 +192,56 @@
     "ship": "Alice",
     "type": "General cargo",
     "length": 89,
-    "breath": "13,35",
+    "breath": "13.35",
     "dwt": 5000
   },
   {
     "ship": "Pioneer",
     "type": "General cargo",
-    "length": "132,5",
-    "breath": "15,87",
+    "length": "132.5",
+    "breath": "15.87",
     "dwt": 11000
   },
   {
     "ship": "Eems Star",
     "type": "General cargo",
-    "length": "87,27",
-    "breath": "11,45",
+    "length": "87.27",
+    "breath": "11.45",
     "dwt": 2600
   },
   {
     "ship": "AMELAND",
     "type": "General Cargo",
-    "length": "115,46",
-    "breath": "16,85",
+    "length": "115.46",
+    "breath": "16.85",
     "dwt": 6390
   },
   {
     "ship": "FLUVIUS AXE",
     "type": "General Cargo",
-    "length": "89,99",
-    "breath": "12,5",
+    "length": "89.99",
+    "breath": "12.5",
     "dwt": 3171
   },
   {
     "ship": "HUNZEDIJK",
     "type": "General Cargo",
-    "length": "89,95",
-    "breath": "14,4",
+    "length": "89.95",
+    "breath": "14.4",
     "dwt": 4891
   },
   {
     "ship": "ERIEBORG",
     "type": "General Cargo",
-    "length": "137,84",
-    "breath": "15,87",
+    "length": "137.84",
+    "breath": "15.87",
     "dwt": 10750
   },
   {
     "ship": "WILSON GRIP",
     "type": "General Cargo",
-    "length": "87,9",
-    "breath": "12,8",
+    "length": "87.9",
+    "breath": "12.8",
     "dwt": 3680
   },
   {
@@ -254,8 +254,8 @@
   {
     "ship": "MBC ROSE",
     "type": "Bulk Carrier",
-    "length": "138,6",
-    "breath": "20,4",
+    "length": "138.6",
+    "breath": "20.4",
     "dwt": 13050
   }
 ]

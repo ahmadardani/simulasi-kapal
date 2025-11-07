@@ -136,3 +136,17 @@ document.addEventListener("keydown", (e) => {
     runSimulation();
   }
 });
+
+// === Navigasi Tab ===
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    // reset semua tab
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+    // aktifkan yang dipilih
+    tab.classList.add("active");
+    const target = tab.getAttribute("data-tab");
+    document.getElementById(`tab-${target}`).classList.add("active");
+  });
+});

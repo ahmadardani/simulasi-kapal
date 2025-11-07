@@ -7,48 +7,141 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    
-    <!-- Bagian simulasi -->
-    <div class="simulator">
-      <div class="water">
-        <img src="assets/ship.svg" alt="kapal" id="ship">
-      </div>
+  <!-- 🌊 Navigasi Tab -->
+  <nav class="navbar">
+    <ul class="tabs">
+      <li class="tab active" data-tab="simulasi">⚙️ Simulasi</li>
+      <li class="tab" data-tab="penjelasan">📘 Penjelasan</li>
+      <li class="tab" data-tab="panduan">💡 Cara Menggunakan</li>
+    </ul>
+  </nav>
 
-      <!-- Panel informasi di kiri atas -->
-      <div class="info-panel" id="info">
-        Siap untuk simulasi.<br>
-        Rasio muatan: <br>
-        Gaya apung: <br>
-        Sudut kemiringan: 
+  <!-- 🌊 Area Utama -->
+  <main class="main-area">
+    <!-- === TAB 1: SIMULASI === -->
+    <div id="tab-simulasi" class="tab-content active">
+      <div class="container">
+        <!-- Bagian simulasi -->
+        <div class="simulator">
+          <div class="water">
+            <img src="assets/ship.svg" alt="kapal" id="ship">
+          </div>
+
+          <!-- Panel informasi di kiri atas -->
+          <div class="info-panel" id="info">
+            Siap untuk simulasi.<br>
+            Rasio muatan: <br>
+            Gaya apung: <br>
+            Sudut kemiringan: 
+          </div>
+        </div>
+
+        <!-- Panel kontrol -->
+        <div class="control-panel">
+          <h2>Parameter Kapal</h2>
+
+          <label for="presetSelect">Pilih Kapal:</label>
+          <select id="presetSelect">
+            <option value="custom">Custom (Isi Manual)</option>
+          </select>
+
+          <label for="length">Panjang (m):</label>
+          <input type="number" id="length" min="1" placeholder="Masukkan panjang kapal (m)">
+
+          <label for="width">Lebar (m):</label>
+          <input type="number" id="width" min="1" placeholder="Masukkan lebar kapal (m)">
+
+          <label for="dwt">DWT (ton):</label>
+          <input type="number" id="dwt" min="1" placeholder="Masukkan DWT kapal">
+
+          <label for="cargoWeight">Berat Muatan (ton):</label>
+          <input type="number" id="cargoWeight" min="0" placeholder="Masukkan berat muatan (ton)">
+
+          <button id="runSim">Jalankan Simulasi</button>
+
+          <div id="result" class="result-card hidden"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Panel kontrol -->
-    <div class="control-panel">
-      <h2>Parameter Kapal</h2>
+    <!-- === TAB 2: PENJELASAN === -->
+<div id="tab-penjelasan" class="tab-content active">
+  <div class="content-box">
+    <h2>📘 Penjelasan</h2>
+    <p>
+      Simulasi ini memperlihatkan bagaimana <b>kapal bereaksi terhadap perubahan muatan</b>.
+      Semakin besar muatan dibandingkan dengan kapasitas maksimum (DWT),
+      semakin dalam kapal tenggelam ke air dan bisa mengalami kemiringan.
+    </p>
 
-      <label for="presetSelect">Pilih Kapal:</label>
-      <select id="presetSelect">
-        <option value="custom">Custom (Isi Manual)</option>
-      </select>
+    <h3>⚖️ Prinsip Fisika yang Digunakan</h3>
+    <p>
+      Berdasarkan <b>Hukum Archimedes</b>:
+    </p>
+    <p style="text-align:center; font-family:monospace; background:#f0f8ff; padding:10px; border-radius:8px;">
+      Gaya Apung (F<sub>a</sub>) = ρ × g × V
+    </p>
+    <ul>
+      <li><b>ρ</b> = massa jenis air laut (sekitar 1025 kg/m³)</li>
+      <li><b>g</b> = percepatan gravitasi (9.81 m/s²)</li>
+      <li><b>V</b> = volume bagian kapal yang terendam air</li>
+    </ul>
 
-      <label for="length">Panjang (m):</label>
-      <input type="number" id="length" min="1" placeholder="Masukkan panjang kapal (m)">
+    <p>
+      Kapal akan <b>stabil</b> jika gaya apung setara dengan berat total kapal dan muatannya.
+      Jika berat lebih besar dari gaya apung, kapal akan tenggelam.
+    </p>
 
-      <label for="width">Lebar (m):</label>
-      <input type="number" id="width" min="1" placeholder="Masukkan lebar kapal (m)">
+    <h3>🌊 Rasio Muatan & Kemiringan</h3>
+    <p>
+      Rasio muatan dihitung dari:
+    </p>
+    <p style="text-align:center; font-family:monospace; background:#f0f8ff; padding:10px; border-radius:8px;">
+      Rasio = Muatan / DWT
+    </p>
+    <p>
+      Bila rasio mendekati atau melebihi 1, berarti muatan terlalu berat.
+      Dalam kondisi ini, kapal bisa <b>miring (heel)</b> atau bahkan <b>tenggelam</b>.
+    </p>
 
-      <label for="dwt">DWT (ton):</label>
-      <input type="number" id="dwt" min="1" placeholder="Masukkan DWT kapal">
+    <h3>⚓ Sudut Kemiringan (θ)</h3>
+    <p>
+      Sudut kemiringan disimulasikan secara sederhana dengan rumus empiris:
+    </p>
+    <p style="text-align:center; font-family:monospace; background:#f0f8ff; padding:10px; border-radius:8px;">
+      θ = K × (Rasio − 0.8) × (L / B)
+    </p>
+    <ul>
+      <li><b>K</b> = konstanta sensitivitas (≈ 5)</li>
+      <li><b>L</b> = panjang kapal</li>
+      <li><b>B</b> = lebar kapal</li>
+    </ul>
+    <p>
+      Artinya, semakin panjang dan ramping kapal, semakin mudah ia miring jika beban berlebih.
+    </p>
 
-      <label for="cargoWeight">Berat Muatan (ton):</label>
-      <input type="number" id="cargoWeight" min="0" placeholder="Masukkan berat muatan (ton)">
-
-      <button id="runSim">Jalankan Simulasi</button>
-
-    </div>
+    <h3>📊 Kesimpulan</h3>
+    <p>
+      Simulasi ini bukan model fisika penuh, tapi pendekatan visual yang menggambarkan hubungan antara
+      <b>muatan, gaya apung, dan kemiringan kapal</b> untuk membantu memahami konsep dasar kestabilan kapal.
+    </p>
   </div>
+</div>
+
+
+    <!-- === TAB 3: CARA MENGGUNAKAN === -->
+    <div id="tab-panduan" class="tab-content">
+      <div class="content-box">
+        <h2>💡 Cara Menggunakan</h2>
+        <ol>
+          <li>Pilih jenis kapal dari menu Preset atau masukkan data manual.</li>
+          <li>Isi berat muatan kapal.</li>
+          <li>Tekan <b>Enter</b> atau klik tombol <b>Jalankan Simulasi</b>.</li>
+          <li>Perhatikan status di panel informasi kiri atas.</li>
+        </ol>
+      </div>
+    </div>
+  </main>
 
   <script src="script.js"></script>
 </body>

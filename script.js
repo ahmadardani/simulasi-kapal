@@ -110,23 +110,7 @@ function runSimulation() {
     Gaya apung: ${formatNewton(buoyancyForce)}<br>
     Sudut kemiringan: ${heelAngle.toFixed(2)}°
   `;
-
-  // Update result card
-  const resultCard = document.getElementById("result");
-  if (resultCard) {
-    resultCard.innerHTML = `
-      <div class="status">${statusText}</div>
-      <p><span id="ratioVal">${(loadRatio * 100).toFixed(1)}%</span></p>
-      <p><span id="buoyVal">${formatNewton(buoyancyForce)}</span></p>
-      <p><span id="heelVal">${heelAngle.toFixed(2)}°</span></p>
-    `;
-    resultCard.classList.remove("hidden", "success", "warning", "danger");
-    if (loadRatio < 0.8) resultCard.classList.add("success");
-    else if (loadRatio < 1) resultCard.classList.add("warning");
-    else resultCard.classList.add("danger");
-  }
 }
-
 runSimButton.addEventListener("click", runSimulation);
 
 // === Shortcut: tekan ENTER untuk menjalankan simulasi ===

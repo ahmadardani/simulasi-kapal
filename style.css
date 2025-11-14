@@ -3,9 +3,7 @@ body {
   background: #e6f4f9;
   margin: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column; /* tab di atas, konten di bawah */
 }
 
 .container {
@@ -142,11 +140,6 @@ button {
 
 button:hover {
   background: #005f95;
-}
-
-#result {
-  margin-top: 15px;
-  font-size: 0.9em;
 }
 
 /* Animasi kapal */

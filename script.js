@@ -126,13 +126,13 @@ function runSimulation() {
   // Logika Status
   if (loadRatio < 0.8) {
     ship.classList.add("wobble");
-    statusText = "🟢 Stabil";
+    statusText = "🟢 Kapal stabil.";
   } else if (loadRatio <= 1.0) {
     ship.classList.add("wobble");
-    statusText = "🟡 Waspada (Berat)";
+    statusText = "🟡 Kapal agak berat, hati-hati.";
   } else {
     ship.classList.add("sink");
-    statusText = "🔴 TENGGELAM (Overload)";
+    statusText = "🔴 Kapal tenggelam!";
   }
 
   // Update Visual Kapal
